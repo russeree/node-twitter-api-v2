@@ -85,6 +85,14 @@ export interface VerifyCredentialsV1Params {
   include_email?: boolean;
 }
 
+// GET blocks/list
+export interface BlockUserListV1Param {
+    cursor?: string;
+    include_entities?: boolean;
+    skip_status?: string;
+    tweet_mode?: 'extended';
+}
+
 // GET mutes/users/list
 export interface MuteUserListV1Params {
   cursor?: string;
