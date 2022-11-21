@@ -274,6 +274,25 @@ export default class TwitterApiv1ReadOnly extends TwitterApiSubClient {
   }
 
   /**
+   * Returns an array of user objects the authenticating user has blocked.
+   * https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/get-blocks-list
+   */
+  public async listBlockedUsers(options: Partial<BlocksUserListV1Params> = {}) {
+    const queryParams: Partial<BlocksUserListV1Params> = {
+      tweet_mode: 'extended',
+      ...options,
+    };
+    const initialRq = await this.get<BlocksUserListV1Result>('blocks/list.json', queryParams, { fullResponse: true });
+
+    return new MuteUserListV1Paginator({
+      realData: initialRq.data,
+      rateLimit: initialRq.rateLimit!,
+      instance: this,
+      queryParams,
+    });
+  }
+
+  /**
    * Returns an array of user objects the authenticating user has muted.
    * https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-list
    */
